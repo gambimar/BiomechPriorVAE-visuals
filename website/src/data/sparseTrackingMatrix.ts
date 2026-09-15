@@ -8,14 +8,14 @@
 //
 // Movement types + marker-set condition folders verified directly against
 // results_sim/MarkerTracking3D/Participant_02/reference/ and the sibling
-// *_converted/ subfolders. 4 of these 9 combinations now have a rendered
-// comparison video (scripts/fig05_trial_videos.py's original straightrunning
-// x distal / vcut x leg, plus scripts/fig05_full_matrix_videos.py's
-// straightrunning x leg / vcut x distal); the Full column and both
-// curved-running cells remain real, unrendered future work -- curved
-// running specifically needs a new camera-angle calibration (see
-// fig05_full_matrix_videos.py's docstring for why it isn't attempted
-// automatically).
+// *_converted/ subfolders. All 9 combinations are rendered:
+// scripts/fig05_trial_videos.py's original straightrunning x distal / vcut x
+// leg; scripts/fig05_full_matrix_videos.py's straightrunning x leg / vcut x
+// distal; and scripts/fig05_remaining_matrix_videos.py's 5 remaining cells
+// (Full column for straightrunning/vcut, plus all 3 curved-running cells --
+// curved running's camera uses fig05_trial_videos.compute_camera's
+// 'circle_fit' mode, ported from the already-published figure05.png still
+// composite's own path circle-fit camera, not a new guess).
 import { asset } from '../lib/asset';
 
 export const MOVEMENTS = ['Straight running', 'V-Cut', 'Curved running'] as const;
@@ -24,6 +24,11 @@ export const MARKER_SETS = ['Legs', 'Ankles + hands', 'Full'] as const;
 export const sparseTrackingVideo: Record<string, string> = {
   'Straight running|Ankles + hands': asset('media/videos/grid-preview-straight.mp4'),
   'Straight running|Legs': asset('media/videos/grid-straightrunning-legs.mp4'),
+  'Straight running|Full': asset('media/videos/grid-straightrunning-full.mp4'),
   'V-Cut|Legs': asset('media/videos/grid-preview-vcut.mp4'),
   'V-Cut|Ankles + hands': asset('media/videos/grid-vcut-ankleshands.mp4'),
+  'V-Cut|Full': asset('media/videos/grid-vcut-full.mp4'),
+  'Curved running|Legs': asset('media/videos/grid-curvedrunning-legs.mp4'),
+  'Curved running|Ankles + hands': asset('media/videos/grid-curvedrunning-ankleshands.mp4'),
+  'Curved running|Full': asset('media/videos/grid-curvedrunning-full.mp4'),
 };
