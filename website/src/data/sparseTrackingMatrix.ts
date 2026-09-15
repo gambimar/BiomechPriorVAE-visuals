@@ -1,10 +1,11 @@
 // Experiment 3 ("Sparse tracking"): 3 movements x 3 marker-set columns = 9
 // combinations. manuscript.tex's own prose names exactly 2 REDUCED marker
 // sets tested against the full-marker reconstruction: "(i) only markers on
-// the legs, and (ii) only markers on the ankles and hands" -- the third
-// column here is that full-marker reference itself, shown alone (not
-// overlaid with a no-prior/with-prior comparison, since there is no
-// sparsity to compare against a prior for on the full set).
+// the legs, and (ii) only markers on the ankles and hands" -- the Legs/
+// Ankles+hands columns overlay full-marker (ground-truth reference) /
+// sparse-no-prior / sparse-prior; the Full column compares no-prior vs.
+// with-prior directly on the full marker set itself, since the prior's
+// effect isn't only about sparsity.
 //
 // Movement types + marker-set condition folders verified directly against
 // results_sim/MarkerTracking3D/Participant_02/reference/ and the sibling

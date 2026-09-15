@@ -7,10 +7,11 @@ export function Exp3Panel() {
   return (
     <ContentBox label="Movement x marker set" color="var(--color-gaitdynamics)">
       <p style={{ color: 'var(--text-muted)' }}>
-        Ground-truth / no-prior / with-prior reconstruction, overlaid, across movement
-        types and marker sets (the two sparse sets tested in the paper, plus the full
-        reference, shown alone since there's no sparsity to compare a prior against on
-        the full set).
+        No-prior / with-prior reconstruction, overlaid, across movement types and marker
+        sets. The two sparse sets tested in the paper also show the full-marker
+        reconstruction alongside, as a ground-truth reference; the full marker set gets
+        the same no-prior/with-prior comparison directly, since the prior's effect isn't
+        only about sparsity.
       </p>
       <div style={{ overflowX: 'auto' }}>
         <table className={styles.table}>
