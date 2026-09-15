@@ -11,6 +11,8 @@ export const SPEEDS = [
   5.13, 5.33, 5.53,
 ] as const;
 
+import { asset } from '../lib/asset';
+
 export interface SpeedVideoEntry {
   speed: (typeof SPEEDS)[number];
   slowmo: string;
@@ -19,6 +21,6 @@ export interface SpeedVideoEntry {
 
 export const speedVideos: SpeedVideoEntry[] = SPEEDS.map((speed) => ({
   speed,
-  slowmo: `/media/videos/speed-${speed}.mp4`,
-  realtime: `/media/videos/speed-${speed}-realtime.mp4`,
+  slowmo: asset(`media/videos/speed-${speed}.mp4`),
+  realtime: asset(`media/videos/speed-${speed}-realtime.mp4`),
 }));

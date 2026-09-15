@@ -27,14 +27,37 @@ const PANEL_HERO_IMAGES: Partial<Record<BubbleId, { src: string; alt: string }>>
   },
 };
 
+function bubbleFromHash(hash: string): BubbleId | null {
+  const id = hash.replace(/^#/, '');
+  return id in PANEL_TITLES ? (id as BubbleId) : null;
+}
+
 function App() {
-  const [activeBubble, setActiveBubble] = useState<BubbleId | null>(null);
+  // Sourced from the URL hash (not plain useState) so opening a panel is a
+  // real history entry: browser back closes the panel instead of leaving
+  // the site entirely, since there was previously nothing for it to land on.
+  const [activeBubble, setActiveBubble] = useState<BubbleId | null>(() =>
+    bubbleFromHash(window.location.hash),
+  );
+
+  useEffect(() => {
+    const onHashChange = () => setActiveBubble(bubbleFromHash(window.location.hash));
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
 
   useEffect(() => {
     document.title = activeBubble
       ? `${PANEL_TITLES[activeBubble]} - BiomechPriorVAE`
       : 'BiomechPriorVAE';
   }, [activeBubble]);
+
+  const openBubble = (id: BubbleId) => {
+    window.location.hash = id;
+  };
+  const closeBubble = () => {
+    window.location.hash = '';
+  };
 
   return (
     <div>
@@ -46,13 +69,13 @@ function App() {
         <p style={{ maxWidth: 640, color: 'var(--text-muted)' }}>
           Click a highlighted region below to see how.
         </p>
-        <HeroFigure activeBubble={activeBubble} onSelect={setActiveBubble} />
+        <HeroFigure activeBubble={activeBubble} onSelect={openBubble} />
       </main>
 
       {activeBubble && (
         <DetailPanel
           title={PANEL_TITLES[activeBubble]}
-          onClose={() => setActiveBubble(null)}
+          onClose={closeBubble}
           heroImage={PANEL_HERO_IMAGES[activeBubble]}
           hideHeader={activeBubble === 'results' || activeBubble === 'objective'}
         >
