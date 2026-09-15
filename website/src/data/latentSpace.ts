@@ -52,4 +52,6 @@ export interface LatentPoint {
 // only a handful of frames in the whole dataset), t-SNE'd over just these
 // 1500 rather than a larger random sample, so the whole displayed embedding
 // is thumbnail-covered.
-export const LATENT_DATA_URL: string | null = '/media/latent_embedding.json';
+import { asset } from '../lib/asset';
+
+export const LATENT_DATA_URL: string | null = asset('media/latent_embedding.json');

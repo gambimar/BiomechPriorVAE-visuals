@@ -1,6 +1,7 @@
 import type { BubbleId } from '../../types';
 import { boxLayouts } from './heroLayout';
 import { BoxHotspot } from './BoxHotspot';
+import { asset } from '../../lib/asset';
 import styles from './HeroFigure.module.css';
 
 interface HeroFigureProps {
@@ -13,7 +14,7 @@ export function HeroFigure({ activeBubble, onSelect }: HeroFigureProps) {
     <div className={styles.wrap}>
       <img
         className={styles.img}
-        src="/media/images/figure00.png"
+        src={asset('media/images/figure00.png')}
         alt="Method overview: prior-based OCP gait synthesis schematic"
       />
       {boxLayouts.map((layout) => (

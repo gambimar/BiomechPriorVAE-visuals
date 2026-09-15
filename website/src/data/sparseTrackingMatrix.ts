@@ -16,12 +16,14 @@
 // running specifically needs a new camera-angle calibration (see
 // fig05_full_matrix_videos.py's docstring for why it isn't attempted
 // automatically).
+import { asset } from '../lib/asset';
+
 export const MOVEMENTS = ['Straight running', 'V-Cut', 'Curved running'] as const;
 export const MARKER_SETS = ['Legs', 'Ankles + hands', 'Full'] as const;
 
 export const sparseTrackingVideo: Record<string, string> = {
-  'Straight running|Ankles + hands': '/media/videos/grid-preview-straight.mp4',
-  'Straight running|Legs': '/media/videos/grid-straightrunning-legs.mp4',
-  'V-Cut|Legs': '/media/videos/grid-preview-vcut.mp4',
-  'V-Cut|Ankles + hands': '/media/videos/grid-vcut-ankleshands.mp4',
+  'Straight running|Ankles + hands': asset('media/videos/grid-preview-straight.mp4'),
+  'Straight running|Legs': asset('media/videos/grid-straightrunning-legs.mp4'),
+  'V-Cut|Legs': asset('media/videos/grid-preview-vcut.mp4'),
+  'V-Cut|Ankles + hands': asset('media/videos/grid-vcut-ankleshands.mp4'),
 };

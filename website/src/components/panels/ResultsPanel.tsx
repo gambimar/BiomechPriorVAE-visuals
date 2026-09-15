@@ -4,6 +4,7 @@ import { ContentBox } from './ContentBox';
 import { SpeedSweepPanel } from './SpeedSweepPanel';
 import { Exp2Panel } from './Exp2Panel';
 import { Exp3Panel } from './Exp3Panel';
+import { asset } from '../../lib/asset';
 import styles from './ContentBox.module.css';
 
 const EXPERIMENTS: {
@@ -19,7 +20,7 @@ const EXPERIMENTS: {
     claim:
       'Predictive simulations across walking and running speeds, state of the art against ' +
       'physics-based, hybrid, and data-driven baselines, including unconstrained (free) speed.',
-    image: '/media/images/figure01.png',
+    image: asset('media/images/figure01.png'),
     color: 'var(--color-ours)',
   },
   {
@@ -28,7 +29,7 @@ const EXPERIMENTS: {
     claim:
       'Hypothesis testing: which objective (energy cost vs. effort), which metabolic model, ' +
       'and how ground-contact stiffness shape predicted gait.',
-    image: '/media/images/figure04.png',
+    image: asset('media/images/figure04.png'),
     color: 'var(--color-predsim)',
   },
   {
@@ -36,7 +37,7 @@ const EXPERIMENTS: {
     title: 'Experiment 3',
     claim:
       'Sparse tracking: reconstructing full-body kinematics from a small number of markers.',
-    image: '/media/images/figure05.png',
+    image: asset('media/images/figure05.png'),
     color: 'var(--color-gaitdynamics)',
   },
 ];

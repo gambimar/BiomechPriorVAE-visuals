@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { LATENT_DATA_URL, type LatentPoint } from '../../data/latentSpace';
+import { asset } from '../../lib/asset';
 import { ScatterPlot } from '../media/ScatterPlot';
 
 export function LatentSpacePanel() {
@@ -9,7 +10,14 @@ export function LatentSpacePanel() {
     if (!LATENT_DATA_URL) return;
     fetch(LATENT_DATA_URL)
       .then((r) => r.json())
-      .then(setPoints)
+      .then((raw: LatentPoint[]) =>
+        setPoints(
+          raw.map((p) => ({
+            ...p,
+            thumbnailUrl: p.thumbnailUrl ? asset(p.thumbnailUrl) : p.thumbnailUrl,
+          })),
+        ),
+      )
       .catch(() => setPoints(null));
   }, []);
 
