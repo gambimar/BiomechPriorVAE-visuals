@@ -1,0 +1,36 @@
+.box {
+  position: relative;
+  border: 1.5px solid var(--box-color, var(--color-accent));
+  border-radius: var(--radius);
+  padding: 1.25rem 1rem 1rem;
+  margin: 1.5rem 0 1rem;
+  background: var(--bg-card);
+}
+
+.tab {
+  position: absolute;
+  top: -0.8rem;
+  left: 0.9rem;
+  background: var(--box-color, var(--color-accent));
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.clickable {
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.clickable:hover {
+  transform: scale(1.01);
+}
+
+.img {
+  width: 100%;
+  display: block;
+  border-radius: 6px;
+}

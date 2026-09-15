@@ -1,0 +1,119 @@
+% Requires: \usepackage{booktabs}
+% Source data: evaluation/gait_distributions.py::sweep_report(), run live from
+% the repo root (`PYTHONPATH=evaluation python3 -c "from gait_distributions
+% import sweep_report; ..."`) on 2026-08-17, aggregated in quadrature (RMS)
+% separately over the walking speeds (0.8-1.6 m/s) and running speeds
+% (2.5-4.5 m/s), the same L2 aggregation convention gait_distributions.py uses
+% across phase points. GaitDynamics = the `vposef22` variant (pelvis+lumbar
+% pinned to the Falisse-2022 donor posture); GaitEncoder = the healthy-latent
+% set only (prior/mixture set dropped). "--" = metric not defined/estimable
+% for that model/condition (e.g. GaitEncoder has no GRF output; models with no
+% trials in that speed band; Falisse 2019 has only n=1 trial per speed, so
+% spread/W2 is never estimable at any speed).
+%
+% "PredSim" row updated 2026-08-18 to match plot/figure01.py's convention: it is
+% now exclusively our own PredSim-ensemble reruns (evaluation/compare_gaitdynamics_
+% sweep.py-style filtering -- converged + gait_contact.has_single_contact_phase --
+% applied to gait_loading.load_baseline_ensemble()), NOT the published Falisse et
+% al. 2022 benchmark used previously. That rerun sweep is still in progress: only
+% 0.8/1.0 m/s have landed so far (n=7, n=4 after cleaning), so the Walking column
+% is an RMS over those two speeds only (not the full 0.8--1.6 grid the other
+% sources get), and Running is not yet estimable at all. Re-run and update again
+% once more of the sweep has converged.
+
+% ---------------------------------------------------------------------------
+% Table 1: 2-Wasserstein distance (EMD), angles + GRF, walking vs. running
+% ---------------------------------------------------------------------------
+\begin{table}[t]
+\centering
+\caption{2-Wasserstein distance (EMD) between each model's generated ensemble
+and the experimental reference, for joint angles (deg) and ground reaction
+force (body weight), aggregated in quadrature separately over the walking
+speeds (0.8--1.6\,m/s) and running speeds (2.5--4.5\,m/s) of the sweep. Best
+value per column in \textbf{bold}, second-best \underline{underlined}.
+GaitEncoder has no force output; Falisse 2019 contributes a single trial per
+speed, so its distributional distance is not estimable; blank cells mean the
+model has no trials in that speed band. PredSim is our own imposed-speed
+PredSim-ensemble reruns (\texttt{scripts/predsim/run\_baseline\_ensemble.m}),
+still in progress at the time of writing -- its Walking entry is an RMS over
+only the 0.8/1.0\,m/s speeds solved so far, and Running is not yet
+estimable.}
+\label{tab:emd_walk_run}
+\begin{tabular}{lcccc}
+\toprule
+ & \multicolumn{2}{c}{Angles W2 (deg)} & \multicolumn{2}{c}{GRF W2 (BW)} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+Model & Walking & Running & Walking & Running \\
+\midrule
+GaitDynamics (vposef22)  & 16.56 & \textbf{9.53}  & 0.198 & \underline{0.206} \\
+SIPP (SmoothSphere)      & \underline{5.15} & 12.58 & 0.099 & \textbf{0.177} \\
+SIPP (BhargavaAct)       & \textbf{4.98} & \underline{10.36} & \textbf{0.088} & 0.222 \\
+Falisse 2019             & --    & --             & --    & --    \\
+PredSim (ensemble)       & 7.89  & --             & \underline{0.091} & --    \\
+GaitNet                  & 7.38  & --             & 0.152 & --    \\
+GaitEncoder (healthy)    & 6.70  & --             & --    & --    \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---------------------------------------------------------------------------
+% Table 2: self-chosen (free) speed
+% ---------------------------------------------------------------------------
+\begin{table}[t]
+\centering
+\caption{Self-chosen (unconstrained) walking speed for the models capable of
+free-speed generation, compared against the normative self-selected walking
+speed reported by \citet{bohannon1997}. GaitNet's gait parameters are sampled
+freely with the trained policy (model) held fixed. W2 is not used here (an
+ensemble-vs-ensemble distance is not meaningful once each sample is free to
+land at its own emergent speed); instead each generated cycle is matched to
+its nearest available reference speed bin and scored by MAE (best
+circular-shift alignment, \texttt{gait\_metrics.align\_and\_maes}) against (a)
+the nearest individual reference subject at that speed ("nn", averaged over
+all subjects in the bin) and (b) that bin's mean reference curve. Best value
+per column, among the three genuinely free-choosing models, in \textbf{bold};
+second-best \underline{underlined}. GaitEncoder has no force output. SIPP and
+the Falisse-family predictive simulations solve with a hard forward-velocity
+constraint and had no completed free-speed run at the time of writing; the
+closest available substitute is a Falisse-settings (not SIPP contact model)
+free-speed PredSim run, shown below the rule for reference only and excluded
+from the bold/underline ranking -- its optimiser converged to a
+cost-of-transport minimum far below the human self-selected range, so it is
+not a fair stand-in for SIPP or for human speed choice. MuscleMimic requires a
+reference motion clip and cannot set/emerge a speed, so it has no row.}
+\label{tab:emd_selfchosen}
+\begin{tabular}{lcccccc}
+\toprule
+ & & & \multicolumn{2}{c}{MAE vs.\ nearest subject (nn)} & \multicolumn{2}{c}{MAE vs.\ mean reference} \\
+\cmidrule(lr){4-5} \cmidrule(lr){6-7}
+Model & $n$ & Self-chosen speed (m/s) & Angles (deg) & GRF (BW) & Angles (deg) & GRF (BW) \\
+\midrule
+GaitDynamics (unconditional)      & 130  & 1.771 $\pm$ 0.591 & 15.22 & \underline{0.148} & 14.52 & \underline{0.144} \\
+GaitNet (free gait, fixed model)  & 180  & \underline{1.092} $\pm$ 0.177 & \underline{7.43} & \textbf{0.110} & \underline{6.42} & \textbf{0.104} \\
+GaitEncoder (healthy)             & 1000 & \textbf{1.244} $\pm$ 0.147 & \textbf{6.68} & --    & \textbf{5.72} & --    \\
+\midrule
+PredSim Free-Speed$^\dagger$      & 10   & 0.751 $\pm$ 0.090 & 6.25  & 0.050 & 4.96  & 0.036 \\
+Reference (Bohannon 1997)         & --   & $\sim$1.2--1.4     & --    & --    & --    & --    \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+$^\dagger$ Falisse-settings OCP (same model as the \texttt{falisse\_predsim}
+row of Table~\ref{tab:emd_walk_run}), free forward velocity in $[0.5, 2.0]$
+m/s, 10 reps from noisy initial guesses (\texttt{results\_sim/free\_speed\_
+noisy}). \emph{Not} the SIPP SmoothSphere/BhargavaAct contact model -- shown
+only because it is the sole OCP-family free-speed result that has actually
+run; a true SIPP free-speed run (\texttt{scripts/predsim/run\_free\_speed.m})
+was scheduled but blocked on a MATLAB license queue as of the last update to
+GENBENCH.md, and had not produced results when this table was built.
+
+% Bibliography entry to add (e.g. references.bib):
+% @article{bohannon1997,
+%   author  = {Bohannon, Richard W.},
+%   title   = {Comfortable and maximum walking speed of adults aged 20--79 years: reference values and determinants},
+%   journal = {Age and Ageing},
+%   volume  = {26},
+%   number  = {1},
+%   pages   = {15--19},
+%   year    = {1997}
+% }

@@ -1,0 +1,29 @@
+.box {
+  position: absolute;
+  border: 2px solid var(--box-color, var(--color-accent));
+  border-radius: 6px;
+  cursor: pointer;
+  background: transparent;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.box:hover {
+  background: color-mix(in srgb, var(--box-color, var(--color-accent)) 10%, transparent);
+}
+
+.box[data-active='true'] {
+  box-shadow: 0 0 0 3px var(--box-color, var(--color-accent));
+}
+
+.tab {
+  position: absolute;
+  top: -0.9rem;
+  left: 0.75rem;
+  background: var(--box-color, var(--color-accent));
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}

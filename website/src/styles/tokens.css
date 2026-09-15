@@ -1,0 +1,26 @@
+:root {
+  --color-reference: #000000;
+  --color-ours: #c9b437;
+  --color-predsim: #c56c14;
+  --color-gaitdynamics: #009e73;
+  --color-gaitnet: #c85293;
+  --color-gaitencoder: #c20707;
+  --color-accent: #3687de;
+
+  /* cividis stops, sampled from matplotlib's cividis colormap */
+  --cividis-0: #00204d;
+  --cividis-25: #414d6b;
+  --cividis-50: #7c7b78;
+  --cividis-75: #b9ab69;
+  --cividis-100: #ffe945;
+
+  --bg: #0b0d12;
+  --bg-panel: #14161d;
+  --bg-card: #1b1e27;
+  --text: #eceef2;
+  --text-muted: #9aa0ad;
+  --border: #2a2e3a;
+
+  --radius: 10px;
+  --gap: 1rem;
+}

@@ -1,0 +1,1 @@
+LM_PROJECT=iwse /Applications/MATLAB_R2024b.app/bin/matlab -r "addpath(genpath(what('scripts').path)); convert_mat_to_plain('results_sim/simulations','results_sim/converted'); quit()" -nodesktop -nosplash -nodisplay

@@ -1,0 +1,38 @@
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0.5rem;
+}
+
+.table th {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  padding: 0.3rem;
+}
+
+.rowLabel {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  text-align: right;
+  padding-right: 0.5rem;
+}
+
+.cell {
+  width: 33%;
+}
+
+.placeholder {
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  border: 1px dashed var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-align: center;
+  padding: 0.5rem;
+}
