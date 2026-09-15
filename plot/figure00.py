@@ -219,8 +219,8 @@ P_BAR = (E_BAR[1] + BAR_GAP, E_BAR[1] + BAR_GAP + BAR_H)
 # full cycle to the half cycle moved it from 13.4in to 11.7in and pushed the
 # equations to 9.4pt. So main() calibrates: draw, measure the real crop,
 # correct, repeat. Nothing here needs hand-tuning when the layout changes.
-TARGET_BASE_PT = 6.5
-EQ_SCALE, SUB_SCALE, TINY_SCALE = 1.05, 0.90, 0.84
+TARGET_BASE_PT = 8
+EQ_SCALE, SUB_SCALE, TINY_SCALE = 1.00, 0.90, 0.84
 FONT_MIN_PT, FONT_MAX_PT = 5.0, 8.0  # Nature Communications' stated range
 CALIB_PASSES = 4                     # font size changes the crop a little, so
 CALIB_TOL = 0.01                     # the correction is iterated to within 1%
