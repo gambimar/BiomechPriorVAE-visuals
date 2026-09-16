@@ -28,7 +28,7 @@ const EXPERIMENTS: {
     claim:
       'Hypothesis testing: which objective (energy cost vs. effort), which metabolic model, ' +
       'and how ground-contact stiffness shape predicted gait.',
-    image: asset('media/images/figure0a4.png'),
+    image: asset('media/images/figure04a.png'),
     color: 'var(--color-predsim)',
   },
   {
