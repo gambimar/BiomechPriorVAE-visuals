@@ -38,7 +38,7 @@ export function Exp2Panel() {
         <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', margin: '0.4rem 0 0.75rem' }}>
           {playback === 'slowmo'
             ? 'Phase-synchronized: every condition shown at the same point in its gait cycle, side by side (not actual speed).'
-            : 'Real-time: actual elapsed-time playback; conditions with different cadence visibly drift apart, as they do in reality.'}
+            : 'Real-time, single gait cycles, can look chunky for multi-condition comparisons.'}
         </p>
         <VideoPlayer
           src={playback === 'slowmo' ? active.entry.slowmo : active.entry.realtime}

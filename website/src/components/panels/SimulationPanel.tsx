@@ -6,7 +6,7 @@ const toolboxBox = {
   role: 'Simulation toolbox',
   citation:
     'BioMAC-Sim-Toolbox, full-body musculoskeletal multibody dynamics enforced at every ' +
-    'collocation node, plus half-cycle periodicity. The three pieces below plug into it.',
+    'collocation node, plus half-cycle periodicity.',
   url: links.biomacSimToolbox,
 };
 

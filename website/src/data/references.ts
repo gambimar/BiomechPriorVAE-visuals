@@ -16,7 +16,7 @@ export const simulationReferences: Reference[] = [
     citation:
       'Gambietz M, et al. (2026). From body hulls to musculoskeletal models: Personalized ' +
       'inertial parameter estimation. PLOS ONE.',
-    role: 'Body segment inertial parameters (BSIP)',
+    role: 'Body segment inertial parameters (SIPP)',
     url: 'https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0349886',
   },
   {

@@ -18,8 +18,7 @@ const EXPERIMENTS: {
     id: 'speed',
     title: 'Experiment 1',
     claim:
-      'Predictive simulations across walking and running speeds, state of the art against ' +
-      'physics-based, hybrid, and data-driven baselines, including unconstrained (free) speed.',
+      'Predictive simulations across walking and running speeds',
     image: asset('media/images/figure01.png'),
     color: 'var(--color-ours)',
   },
