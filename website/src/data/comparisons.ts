@@ -42,3 +42,37 @@ export const contactComparison: ComparisonEntry = {
   slowmo: asset('media/videos/contact-slowmo.mp4'),
   realtime: asset('media/videos/contact-realtime.mp4'),
 };
+
+// Bilateral hip-abductor weakness sweep (figure04b panel b), filmed from
+// BEHIND so the frontal-plane signs -- contralateral pelvic drop, lateral
+// trunk lean -- are what the viewer sees. Levels are REMAINING abductor
+// strength in %, listed strongest first so the slider reads "more impaired"
+// rightward, like the figure's inverted x-axis. One movie per level: that
+// level's lowest-metabolic-cost free-speed solve after figure04b's own
+// solve-quality filters (scripts/fig04b_trendelenburg_videos.py; the
+// slow-mo/real-time pair mirrors the speed sweep's). Weakness is bilateral
+// because the OCP's half-cycle mirror constraint cannot express a one-sided
+// deficit -- see figure04b.py's module docstring.
+export const WEAKNESS_LEVELS = [100, 75, 50, 30, 25, 20, 15, 10, 5] as const;
+
+export interface WeaknessVideoEntry {
+  /** Remaining abductor strength, % of nominal. */
+  remaining: (typeof WEAKNESS_LEVELS)[number];
+  slowmo: string;
+  realtime: string;
+}
+
+export const weaknessVideos: WeaknessVideoEntry[] = WEAKNESS_LEVELS.map((remaining) => ({
+  remaining,
+  slowmo: asset(`media/videos/weakness-${remaining}.mp4`),
+  realtime: asset(`media/videos/weakness-${remaining}-realtime.mp4`),
+}));
+
+export const weaknessComparison = {
+  title: 'Abductor Weakness',
+  blurb:
+    'How does gait adapt to bilateral hip-abductor weakness? Self-chosen walking speed under ' +
+    'Bhargava metabolic cost with the abductors weakened in steps from full strength down to ' +
+    '5% remaining, viewed from behind: the classic Trendelenburg signs are a contralateral ' +
+    'pelvic drop and a compensatory lateral trunk lean over the stance leg.',
+};

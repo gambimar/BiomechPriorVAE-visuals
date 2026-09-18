@@ -27,7 +27,7 @@ const EXPERIMENTS: {
     title: 'Experiment 2',
     claim:
       'Hypothesis testing: which objective (energy cost vs. effort), which metabolic model, ' +
-      'and how ground-contact stiffness shape predicted gait.',
+      'how ground-contact stiffness, and how hip-abductor weakness shape predicted gait.',
     image: asset('media/images/figure04a.png'),
     color: 'var(--color-predsim)',
   },
