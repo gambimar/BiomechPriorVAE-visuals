@@ -220,7 +220,7 @@ P_BAR = (E_BAR[1] + BAR_GAP, E_BAR[1] + BAR_GAP + BAR_H)
 # equations to 9.4pt. So main() calibrates: draw, measure the real crop,
 # correct, repeat. Nothing here needs hand-tuning when the layout changes.
 TARGET_BASE_PT = 8
-EQ_SCALE, SUB_SCALE, TINY_SCALE = 1.00, 0.90, 0.84
+EQ_SCALE, SUB_SCALE, TINY_SCALE = 1.00, 1.00, 1.00
 FONT_MIN_PT, FONT_MAX_PT = 5.0, 8.0  # Nature Communications' stated range
 CALIB_PASSES = 4                     # font size changes the crop a little, so
 CALIB_TOL = 0.01                     # the correction is iterated to within 1%
@@ -701,6 +701,64 @@ def _crop_width_in(pdf_path):
     return (float(m.group(3)) - float(m.group(1))) / 72
 
 
+def _shrink_pdf_cropped(src_pdf, dst_pdf, target_width_in):
+    """Like figure01._shrink_pdf_with_ghostscript, but actually crops to the
+    measured ink bbox before scaling to target_width_in.
+
+    figure01's version measures the ink bbox only to compute a scale ratio,
+    then applies that width via `-dPDFFitPage` to the ORIGINAL (uncropped)
+    page -- so any leftover whitespace outside the ink (bbox_inches='tight'
+    does not perfectly crop it, e.g. the row's floor-mask rectangles) gets
+    scaled down along with the ink, and the ink ends up narrower than
+    target_width_in instead of filling it. That silently shrinks every font
+    size by the same fraction (here ~23%, since the ink was ~77% of the page).
+    Scoped to figure00 only -- figure01 keeps its own (currently
+    unaffected-by-this-bug) behaviour untouched.
+    """
+    import re
+    import subprocess
+    import tempfile
+
+    bbox_out = subprocess.run(
+        ['gs', '-dNOPAUSE', '-dBATCH', '-dQUIET', '-sDEVICE=bbox', src_pdf],
+        capture_output=True, text=True,
+    ).stderr
+    m = re.search(
+        r'%%HiResBoundingBox:\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)', bbox_out)
+    if not m:
+        raise RuntimeError(f'Could not parse Ghostscript bbox output:\n{bbox_out}')
+    x0, y0, x1, y1 = (float(v) for v in m.groups())
+    width_pt, height_pt = x1 - x0, y1 - y0
+
+    target_width_pt = target_width_in * 72
+    target_height_pt = target_width_pt * (height_pt / width_pt)
+
+    with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as tmp:
+        cropped_pdf = tmp.name
+    try:
+        # Stamp the measured ink bbox on as the CropBox -- this does not
+        # rewrite content, just records the box for the next pass to fit to.
+        subprocess.run([
+            'gs', '-dNOPAUSE', '-dBATCH', '-dQUIET', '-sDEVICE=pdfwrite',
+            '-o', cropped_pdf,
+            '-c', f'[/CropBox [{x0} {y0} {x1} {y1}] /PAGES pdfmark',
+            '-f', src_pdf,
+        ], check=True)
+        # -dUseCropBox makes -dPDFFitPage fit THAT box (the ink) to the
+        # target size, rather than the original, wider MediaBox.
+        subprocess.run([
+            'gs', '-dNOPAUSE', '-dBATCH', '-dQUIET', '-sDEVICE=pdfwrite',
+            f'-dDEVICEWIDTHPOINTS={target_width_pt:.2f}',
+            f'-dDEVICEHEIGHTPOINTS={target_height_pt:.2f}',
+            '-dFIXEDMEDIA', '-dPDFFitPage', '-dUseCropBox',
+            '-o', dst_pdf, cropped_pdf,
+        ], check=True)
+    finally:
+        os.remove(cropped_pdf)
+    print(f'Wrote {dst_pdf} via Ghostscript at {target_width_in}in wide '
+          f'({target_width_pt:.1f}x{target_height_pt:.1f}pt), ink-cropped')
+
+
 def _build_figure():
     fig = plt.figure(figsize=(FIG_W, FIG_H))
 
@@ -766,7 +824,7 @@ def main():
     paper_figs = '/Users/markusgambietz/PhD/Topics/Publications/biomechpriorvae/figures/'
     if os.path.isdir(paper_figs):
         shutil.copyfile(out_png, os.path.join(paper_figs, 'figure00.png'))
-        f1._shrink_pdf_with_ghostscript(
+        _shrink_pdf_cropped(
             out_pdf, os.path.join(paper_figs, 'figure00.pdf'),
             f1.PRINTED_WIDTH_IN)
     else:

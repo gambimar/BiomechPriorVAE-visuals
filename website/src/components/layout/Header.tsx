@@ -13,7 +13,7 @@ export function Header() {
           Data
         </a>
         <a className={styles.pill} href={links.paper} target="_blank" rel="noreferrer">
-          Paper
+          Preprint
         </a>
       </nav>
     </header>

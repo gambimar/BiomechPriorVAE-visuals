@@ -67,7 +67,12 @@ for i = 1:numel(matFiles)
         continue;
     end
 
-    S.converged = data.result.converged;
+    try
+        S.converged = data.result.converged;
+    catch
+        fprintf('No result.converged in %s, skipping.\n', inFile);
+        continue;
+    end
     S.info = data.result.info;
     S.X = data.result.X;
     S.objectives = data.result.problem.objectiveTerms;

@@ -152,7 +152,7 @@ def draw_grf_icon(parent_ax, component, grf_row, scale=1.0, bbox=(0.60, 0.5, 0.5
                                      linestyle=':', linewidth=1, 
                                      arrowstyle='-|>', mutation_scale=7, zorder=4))
     ax.add_patch(FancyArrowPatch(origin, origin + interest_vec, color=DARK_GREEN,
-                                 linestyle='-', linewidth=1.6, arrowstyle='-|>',
+                                 linestyle='-', linewidth=2.2, arrowstyle='-|>',
                                  mutation_scale=7, zorder=4))
     # add a dotted line from the tip of the interest arrow to the tip of the full vector
     tip = origin + interest_vec
