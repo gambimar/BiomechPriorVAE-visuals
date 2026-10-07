@@ -24,12 +24,8 @@ Run every command **from the repo root** (the loaders use relative paths).
 
 ## Result Data
 
-Download the result data from Zenodo: <https://doi.org/10.5281/zenodo.10416813> and unpack it in the `results_sim` folder. 
-
-```bash
-wget https://zenodo.org/record/10416813/files/BiomechPriorVAE-visuals-data.tar.gz
-tar -xzf BiomechPriorVAE-visuals-data.tar.gz -C results_sim
-```
+Download the result data from Zenodo: <https://doi.org/10.5281/zenodo.23207926>
+and unpack it into the `results_sim` folder.
 
 When you create your own results, put them in `results_sim/simulations/` and run `./convert_mat.sh` to convert MATLAB objects to scipy-readable ga `.mat` files.
 
